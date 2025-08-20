@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import Validate from "./Validate";
 import { useNavigate } from "react-router-dom";
 
 interface courseCardInput {
