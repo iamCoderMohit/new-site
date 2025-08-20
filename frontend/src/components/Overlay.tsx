@@ -6,7 +6,7 @@ function Overlay({setShowOverlay, setShowValidate}: overlayInput) {
   return (
     <div className="bg-black fixed inset-0 z-1 opacity-95"
     onClick={() => (
-        setShowOverlay(prev => !prev), 
+        setShowOverlay(false), 
         setShowValidate(false)
     )
     }

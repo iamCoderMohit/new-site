@@ -22,14 +22,31 @@ export function useCourse(){
     }
 
     const getCourse = async (id: number) => {
+        setLoading(true)
         try {
             const res = await axios.get(`${BACKEND_URL}/course/${id}`)
 
             setCourse(res.data.course)
         } catch (error) {
             console.error(error)
+        } finally{
+            setLoading(false)
         }
     }
 
-    return {getCourses, courses, loading, getCourse, course}
+    const createCourse = async (title: string, description: string, price: number, thumbnail: string) => {
+        try {
+            const res = await axios.post(`${BACKEND_URL}/course`, {title, description, price, thumbnail}, {
+                headers: {
+                    Authorization: localStorage.getItem('jwt')
+                }
+            })
+
+            console.log(res.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return {getCourses, courses, loading, getCourse, course, createCourse}
 }

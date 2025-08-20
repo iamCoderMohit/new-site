@@ -8,6 +8,10 @@ import { Provider } from 'react-redux'
 import { persistor, store } from './store/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import CheckOut from './pages/CheckOut'
+import MyCourses from './pages/MyCourses'
+import AdminRoute from './components/ProtectedRoute'
+import AdminDashboard from './components/AdminDashboard'
+import CreateCourse from './components/CreateCourse'
 
 function App() {
   return (
@@ -20,6 +24,17 @@ function App() {
         <Route path='/signin' element={<Signin />} />
         <Route path='/explore' element={<Explore />} />
         <Route path='/checkout/:courseId' element={<CheckOut />} />
+        <Route path='/myCourses' element={<MyCourses />} />
+        <Route path='/admin' element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
+        <Route path='/admin/create' element={
+          <AdminRoute>
+            <CreateCourse />
+          </AdminRoute>
+        } />
       </Routes>
     </BrowserRouter>
     </PersistGate>

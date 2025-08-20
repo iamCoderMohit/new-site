@@ -93,7 +93,8 @@ userRouter.get('/me', validateUser, async (req: customRequest, res) => {
       }, 
       select: {
         name: true,
-        email: true
+        email: true,
+        role: true
       }
     })
 

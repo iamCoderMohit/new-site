@@ -41,7 +41,7 @@ function Explore() {
 
       {loading ? <Loader /> : null}
 
-      <div className="flex justify-around">
+      <div className="flex justify-around flex-wrap gap-5">
         {courses.map((course: any) => (
           <div>
             <CourseCard id={course.id} title={course.title} description={course.description} price={course.price} thumbnail={course.thumbnail} setShowValidate={setShowValidate} setShowOverlay={setShowOverlay} />

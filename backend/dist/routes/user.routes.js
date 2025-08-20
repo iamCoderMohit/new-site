@@ -86,7 +86,8 @@ userRouter.get('/me', verifyToken_1.default, (req, res) => __awaiter(void 0, voi
             },
             select: {
                 name: true,
-                email: true
+                email: true,
+                role: true
             }
         });
         return res.json({
