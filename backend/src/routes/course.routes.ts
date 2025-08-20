@@ -6,7 +6,7 @@ import isAdmin from "../middlewares/isAdmin";
 const courseRouter = express.Router();
 
 courseRouter.post("/", validateUser, isAdmin, async (req, res) => {
-  const { title, description, price } = req.body;
+  const { title, description, price, thumbnail } = req.body;
 
   try {
     const course = await prisma.course.create({
@@ -14,6 +14,7 @@ courseRouter.post("/", validateUser, isAdmin, async (req, res) => {
         title,
         description,
         price,
+        thumbnail
       },
     });
 
@@ -29,7 +30,7 @@ courseRouter.post("/", validateUser, isAdmin, async (req, res) => {
 
 courseRouter.put("/:courseId", validateUser, isAdmin, async (req, res) => {
   const { courseId } = req.params;
-  const { title, description, price } = req.body;
+  const { title, description, price, thumbnail } = req.body;
 
   try {
     const course = await prisma.course.update({
@@ -40,6 +41,7 @@ courseRouter.put("/:courseId", validateUser, isAdmin, async (req, res) => {
         title,
         description,
         price,
+        thumbnail
       },
     });
 
@@ -107,6 +109,27 @@ courseRouter.get('/:courseId', async (req, res) => {
     }
 })
 
-//review routes for a course is remaining
+courseRouter.get('/reviews/:courseId', async (req, res) => {
+  const {courseId} = req.params
+
+  try {
+    const reviews = await prisma.course.findMany({
+      where: {
+        id: Number(courseId)
+      }, 
+      select: {
+        review: true
+      }
+    })
+
+    return res.json({
+      reviews
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error
+    })
+  }
+})
 
 export default courseRouter;

@@ -48,7 +48,7 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-userRouter.post("/signin", validateUser, async (req: customRequest, res) => {
+userRouter.post("/signin", async (req: customRequest, res) => {
   const { email, password } = req.body;
 
   try {
@@ -82,4 +82,28 @@ userRouter.post("/signin", validateUser, async (req: customRequest, res) => {
   }
 });
 
+
+userRouter.get('/me', validateUser, async (req: customRequest, res) => {
+  const userId = req.user.userInfo.id
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId
+      }, 
+      select: {
+        name: true,
+        email: true
+      }
+    })
+
+    return res.json({
+      user
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error
+    })
+  }
+})
 export default userRouter;

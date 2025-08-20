@@ -18,13 +18,14 @@ const verifyToken_1 = __importDefault(require("../middlewares/verifyToken"));
 const isAdmin_1 = __importDefault(require("../middlewares/isAdmin"));
 const courseRouter = express_1.default.Router();
 courseRouter.post("/", verifyToken_1.default, isAdmin_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, description, price } = req.body;
+    const { title, description, price, thumbnail } = req.body;
     try {
         const course = yield prisma_1.prisma.course.create({
             data: {
                 title,
                 description,
                 price,
+                thumbnail
             },
         });
         return res.json({
@@ -39,7 +40,7 @@ courseRouter.post("/", verifyToken_1.default, isAdmin_1.default, (req, res) => _
 }));
 courseRouter.put("/:courseId", verifyToken_1.default, isAdmin_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { courseId } = req.params;
-    const { title, description, price } = req.body;
+    const { title, description, price, thumbnail } = req.body;
     try {
         const course = yield prisma_1.prisma.course.update({
             where: {
@@ -49,6 +50,7 @@ courseRouter.put("/:courseId", verifyToken_1.default, isAdmin_1.default, (req, r
                 title,
                 description,
                 price,
+                thumbnail
             },
         });
         return res.json({
@@ -110,5 +112,25 @@ courseRouter.get('/:courseId', (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
 }));
-//review routes for a course is remaining
+courseRouter.get('/reviews/:courseId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseId } = req.params;
+    try {
+        const reviews = yield prisma_1.prisma.course.findMany({
+            where: {
+                id: Number(courseId)
+            },
+            select: {
+                review: true
+            }
+        });
+        return res.json({
+            reviews
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            error
+        });
+    }
+}));
 exports.default = courseRouter;

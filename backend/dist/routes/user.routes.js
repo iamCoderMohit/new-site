@@ -51,7 +51,7 @@ userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
 }));
-userRouter.post("/signin", verifyToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
         const user = yield prisma_1.prisma.user.findUnique({
@@ -74,6 +74,28 @@ userRouter.post("/signin", verifyToken_1.default, (req, res) => __awaiter(void 0
     catch (error) {
         return res.status(500).json({
             error,
+        });
+    }
+}));
+userRouter.get('/me', verifyToken_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user.userInfo.id;
+    try {
+        const user = yield prisma_1.prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            select: {
+                name: true,
+                email: true
+            }
+        });
+        return res.json({
+            user
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            error
         });
     }
 }));

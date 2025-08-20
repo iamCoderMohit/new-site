@@ -4,10 +4,12 @@ import courseRouter from './routes/course.routes'
 import enrollRouter from './routes/enroll.routes'
 import reviewRouter from './routes/review.routes'
 import certificateRouter from './routes/certificate.routes'
+import cors from 'cors'
 
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 app.use('/api/v1/user', userRouter)
 app.use('/api/v1/course', courseRouter)

@@ -33,6 +33,7 @@ model Course {
   price Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  thumbnail String?
   enrollments Enrollment[]
   review Review[]
   certificate Certificate[]
@@ -42,7 +43,7 @@ model Enrollment {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
   userId Int
-  course Course @relation(fields: [courseId], references: [id])
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId Int
   enrolledAt DateTime @default(now())
 }
@@ -53,7 +54,7 @@ model Review {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
   userId Int
-  course Course @relation(fields: [courseId], references: [id])
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId Int
   rating Int
   comment String
@@ -64,7 +65,7 @@ model Certificate{
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
   userId Int
-  course Course @relation(fields: [courseId], references: [id])
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId Int
   cerficateUrl String
   issuedAt DateTime
